@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import TailSelect from "../UI/TailSelect";
+import getcode from './getcode.json'
 
 export default function UltraSrtFcst() {
 
@@ -7,12 +9,32 @@ export default function UltraSrtFcst() {
     const area = useParams().area;
     const x = useParams().x;
     const y = useParams().y;
+    const gubun = '초단기예보';
+    const ops = getcode.filter(item => item.예보구분 === gubun).map(item => `${item["항목명"]} ${item["항목값"]}`)
     
+    const itemRef = useRef();
     //fetch data state 변수로 저장
     const [tdata, setTdata] = useState([]);
 
     //화면에 표시되는 테이블 tr저장
     const [trtag, setTrtag] = useState([]);
+
+    //select 박스 선택값
+    const [selItem, setSelItem] = useState();
+    const [selItemName, setSelItemName] = useState();
+
+    //select 박스 항목 선택
+    const handleItem = () => {
+      if (itemRef.current.value === ''){
+        alert('항목을 선택하세요.')
+        itemRef.current.focus();
+        setTrtag([]);
+        return;
+      }
+      console.log(itemRef.current.value)
+      setSelItemName(itemRef.current.value.split(' ')[0]);
+      setSelItem(itemRef.current.value.split(' ')[1]);
+    }
 
     console.log(dt, area, x, y);
 
@@ -34,35 +56,52 @@ export default function UltraSrtFcst() {
 
         //fetch 함수
         getData(url)
-
     }, []);
 
     //tdata가 저장 되었을 때, 
 
     useEffect(() => {
-      console.log(tdata)
-      let tm = tdata.map(item => 
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {item.category}
-              </th>
-              <td className="px-6 py-4">
+      let tm = tdata.filter(item => item["category"] === selItem)
+      .map(item => 
+            <tr key = {item.fcstDate + item.fcstTime}
+            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <td scope="row" className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {selItemName}
+              </td>
+              <td className="px-6 py-2">
                   {`${item.fcstDate.substring(0, 4)}-${item.fcstDate.substring(4, 6)}-${item.fcstDate.substring(6, 8)}`}
               </td>
-              <td className="px-6 py-4">
+              <td className="px-6 py-2">
                   {`${item.fcstTime.substring(0, 2)} : ${item.fcstTime.substring(2, 4)}`}
               </td>
-              <td className="px-6 py-4">
+              <td className="px-6 py-2">
                   {item.fcstValue}
               </td>
             </tr>
         )
         setTrtag(tm);
-    }, [tdata])
+    }, [selItem])
 
   return (
-    <div className="w-full h-full flex flex-col
-                    justify-start items-center">
+    <div className="w-10/12 h-full flex flex-col
+                    justify-start items-start">
+      <div className="w-full justify-start grid grid-cols-1 
+                      md:grid-cols-2 
+                      gap-2 p-2">
+      </div>
+        <div className="text-lg font-bold p-5">
+          {`${area} ${gubun} (${dt.substring(0, 4)}-${dt.substring(4, 6)}-${dt.substring(6, 8)}) 일자`}
+        </div>
+        <div className="p-4">
+          <TailSelect ops = {ops}
+                      opDefault ="---항목선택---"
+                      selRef = {itemRef}
+                      handleSel ={handleItem}
+          />
+        </div>
+        <div>
+
+        </div>
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-10/12 text-sm text-left rtl:text-right text-gray-500">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">

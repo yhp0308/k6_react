@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import GalleryCard from "../11/GalleryCard";
 
 export default function Festival() {
+
     //부산축제 전체 데이터
     const [tdata,setTdata] = useState() ;
     const [guname, setGuname] = useState();
@@ -27,7 +28,6 @@ export default function Festival() {
                      title = {title}
                      ptitle = {item.TRFC_INFO}
                      ktag = {item.USAGE_DAY_WEEK_AND_TIME} />
-          
         });
         setCardTags(tmp)
     }

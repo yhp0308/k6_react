@@ -7,7 +7,6 @@ export default function RouteNav() {
   return (
     <div className="w-11/12 flex flex-col
                     justify-center items-center">
-
             <ul className="w-11/12 flex
                     justify-between items-center">
                <li className="px-4 py-2 m-2 rounded-md w-full bg-slate-200 text-center">
