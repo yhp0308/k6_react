@@ -37,7 +37,13 @@ export default function Frcst() {
             return;
         }
         
-        navigator(`/${loc}/${dt}/${area}/${x}/${y}`);
+        // navigator(`/${loc}/${dt}/${area}/${x}/${y}`);
+
+        let gubun = '';
+        if (loc === 'ultra') gubun = '초단기예보'
+        else gubun = '단기예보';
+
+        navigator(`/flist?dt=${dt}&area=${area}&x=${x}&y=${y}&gubun=${gubun}`);
     }
 
     const handleVilage = (g) => {
