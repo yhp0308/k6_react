@@ -24,7 +24,8 @@ import Frcst from './14/Frcst';
 import UltraSrtFcst from './14/UltraSrtFcst';
 import VilageFcst from './14/VilageFcst';
 import FrcstList from './14/FrcstList'
-import Recoil1 from './15/Recoil1';
+import RecoilMain from './15/RecoilMain';
+// import Recoil1 from './15/Recoil1';
 
 function App() {
 
@@ -45,7 +46,7 @@ function App() {
         <div className='flex justify-end items-center'>
           <div className='mx-5 p-2 rounded-md hover:bg-blue-900 hover:text-white'>
             <Link to = '/r1'>
-            Recoil
+              Recoil
             </Link>
           </div>
           <div className='mx-5 p-2 rounded-md hover:bg-blue-900 hover:text-white'>
@@ -95,7 +96,7 @@ function App() {
               <Route path='/ultra/:dt/:area/:x/:y' element={<UltraSrtFcst/>} />
               <Route path='/vilage/:dt/:area/:x/:y' element={<VilageFcst/>} />
               <Route path='/flist' element={<FrcstList/>} />
-              <Route path='/r1' element={<Recoil1/>}/>
+              <Route path='/r1' element={<RecoilMain/>}/>
             </Routes>
         </main>
       <footer className='flex justify-center items-center
