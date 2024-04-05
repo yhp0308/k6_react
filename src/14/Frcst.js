@@ -24,8 +24,8 @@ export default function Frcst() {
     };
 
     //초단기예보
-    const handleUltra = () => {
-        if (dt === '' || dt === undefined){
+    const handleFrcst = (loc) => {
+        if (dt === '' || dt === undefined) {
             alert('날짜를 선택하세요.')
             dRef.current.focus();
             return;
@@ -37,7 +37,23 @@ export default function Frcst() {
             return;
         }
         
-        navigator(`/ultra/${dt}/${area}/${x}/${y}`);
+        navigator(`/${loc}/${dt}/${area}/${x}/${y}`);
+    }
+
+    const handleVilage = (g) => {
+        if (dt === '' || dt === undefined) {
+            alert('날짜를 선택하세요.')
+            dRef.current.focus();
+            return;
+        }
+        
+        if (area === '' || area === undefined) {
+            alert('지역를 선택하세요.')
+            sRef.current.focus();
+            return;
+        }
+        
+        navigator(`/${g}/${dt}/${area}/${x}/${y}`);
     }
 
     const handleArea = () => {
@@ -53,7 +69,6 @@ export default function Frcst() {
     useEffect(() => {
         
     } , [x,y])
-
     
     return (
         <div className="w-11/12 justify-start grid grid-cols-1 
@@ -66,19 +81,23 @@ export default function Frcst() {
             <TailSelect ops = {ops}
                         opDefault = "---지역 선택---"
                         selRef = {sRef}
-                        handleSel = {handleArea}/>
+                        handleSel = {handleArea}
+                        />
             <div>
             <TailButton caption = "초단기예보"
                         color = "blue" 
-                        handleClick = {handleUltra}
+                        handleClick = {() => 
+                            {handleFrcst('ultra')}}
                         />
             </div>
 
             <div>
             <TailButton caption = "단기예보"
                         color = "blue" 
-                        />
+                        handleClick = {() => 
+                            {handleFrcst('vilage')}}/>
             </div>
+
         </div>
   )
 }
