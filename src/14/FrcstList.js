@@ -15,7 +15,6 @@ export default function FrcstList() {
 
   const bTime = gubun === '단기예보' ? '0500' : '0630'
 
-
   const ops = getcode.filter(item => item["예보구분"] === gubun)
   .map(item => `${item["항목명"]} (${item["항목값"]})`);
 
@@ -60,7 +59,6 @@ export default function FrcstList() {
           let url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/${newURL}`;
           url = url + `serviceKey=${process.env.REACT_APP_APIKEY}`;
           url = url + `&pageNo=1&numOfRows=1000&dataType=json&base_date=${dt}&base_time=${bTime}&nx=${x}&ny=${y}`;
-          console.log(url)
   
           //fetch 함수
           getData(url)
